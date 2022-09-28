@@ -25,10 +25,10 @@ class SmsController extends Controller
     {
 
         $username = 'makaebenezer@yahoo.fr';
-        $transaction_url = 'https://smsvas.com/bulk/public/index.php/api/v1/sendsms';
+        $SendSms_url = 'https://smsvas.com/bulk/public/index.php/api/v1/sendsms';
         $password = 'ecoleenspd2022';
         $senderid = 'SchoolPay';
-        $mobiles = self::getPhoneNumbers($studentPhoneNumber, $payerPhoneNumber);
+        $mobiles = strval(self::getPhoneNumbers($studentPhoneNumber, $payerPhoneNumber)); // strval c'est juste pour etre sur que j'aurai une chaine de caractère en sortie
         $sms = "Paiement des droits universitaires ({$universityRight}) de l'étudiant {$studentName} ({$registerNumber}) effectué par {$payerPhoneNumber} le {$datetime}.\nMontant: {$amount} , Frais: 100 FCFA.\n\nInstitut universitaire: {$schoolName}.";
 
         $client = new Client();
@@ -40,7 +40,7 @@ class SmsController extends Controller
         ];
 
         try {
-           $client->request('POST', $transaction_url, [
+           $client->request('POST', $SendSms_url, [
                 'headers' => $headers,
                 'json' => [
                     'username' => $username,
